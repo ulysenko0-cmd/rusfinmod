@@ -186,7 +186,7 @@ export function DashboardTab() {
                   >
                     <td className="py-2 font-medium">{m.month}</td>
                     <td className="py-2 text-right">{fmtKg(m.volume)}</td>
-                    <td className="py-2 text-right">{fmtPerKg(m.price)}</td>
+                    <td className="py-2 text-right">{fmtPerKg(m.effective_price)}</td>
                     <td className={"py-2 text-right " + signClass(m.margin_per_kg)}>{fmtPerKg(m.margin_per_kg)}</td>
                     <td className={"py-2 text-right font-semibold " + signClass(m.result)}>{fmtMln(m.result)}</td>
                   </tr>

@@ -113,7 +113,7 @@ export interface ModelState {
 const DEFAULT_PRICE_MILK = [41.5, 39.5, 37, 37, 37, 35.63, 35, 35, 35, 35, 35, 35];
 const DEFAULT_DAILY_VOLUME = [
   93761.129, 95282.857, 96367.742, 100050, 103800, 104631.94,
-  102164.16, 96400, 96400, 96400, 96400, 96400,
+  102164.16, 101027.6129032258, 96400, 96400, 96400, 96400,
 ];
 
 // Сверено с эталонным Excel-файлом «Мини-модель_мясо_2026»
@@ -127,7 +127,7 @@ const DEFAULT_MEAT: Record<MeatKey, MeatRow> = {
   heifers:       { heads: 544,    weight_per_head: 567.791176,   price_2025: 357.3581, cost_2025: 369.7174 },
 };
 
-const DEFAULT_FAT = [4.12, 3.97, 3.90, 3.95, 3.77, 3.81, 3.5, 3.61, 3.56, 3.73, 3.83, 4.02];
+const DEFAULT_FAT = [4.12, 3.97, 3.90, 3.95, 3.77, 3.81, 3.5, 3.765, 3.56, 3.73, 3.83, 4.02];
 
 const DEFAULT_STATE = {
   price_milk_m: [...DEFAULT_PRICE_MILK],
