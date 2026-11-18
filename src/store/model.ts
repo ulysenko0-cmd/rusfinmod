@@ -39,6 +39,7 @@ export interface ModelState {
   fat_base: number;              // база надбавки по договору (3.6%)
   fat_premium_per_pct: number;   // ₽/кг за 1% жира сверх базы до сентября
   fat_premium_per_pct_q4: number; // ₽/кг за 1% жира сверх базы с октября
+  fat_premium_override_m: Array<number | null>; // фактическая надбавка месяца, если задана
 
   // СС молока
   cost_milk_2025: number;
@@ -111,7 +112,7 @@ export interface ModelState {
 }
 
 // --- Дефолтные значения из спецификации ---
-const DEFAULT_PRICE_MILK = [41.5, 39.5, 37, 37, 37, 35.63, 35, 35, 35.38, 36.35, 36, 36];
+const DEFAULT_PRICE_MILK = [41.5, 39.5, 37, 37, 37, 35.63, 35, 35, 35.38, 36, 36, 36];
 const DEFAULT_DAILY_VOLUME = [
   93761.129, 95282.857, 96367.742, 100050, 103800, 104631.94,
   102164.16, 101027.6129032258, 96935, 95258.06451612903, 96400, 96400,
@@ -129,6 +130,7 @@ const DEFAULT_MEAT: Record<MeatKey, MeatRow> = {
 };
 
 const DEFAULT_FAT = [4.12, 3.97, 3.90, 3.95, 3.77, 3.81, 3.5, 3.765, 3.56, 3.8, 4, 4];
+const DEFAULT_FAT_PREMIUM_OVERRIDE = [null, null, null, null, null, null, null, null, null, 2.37575511683034, null, null];
 
 const DEFAULT_STATE = {
   price_milk_m: [...DEFAULT_PRICE_MILK],
@@ -137,6 +139,7 @@ const DEFAULT_STATE = {
   fat_base: 3.6,
   fat_premium_per_pct: 2.0,
   fat_premium_per_pct_q4: 5.5,
+  fat_premium_override_m: [...DEFAULT_FAT_PREMIUM_OVERRIDE],
   cost_milk_2025: 38.55,
   cost_milk_coeff: 1.065,
   meat: structuredClone(DEFAULT_MEAT),
@@ -286,7 +289,10 @@ export function calculate(s: ModelState): Calculations {
     const volume = daily * days;
     const fat = s.fat_m[i];
     const fatPremiumRate = i >= 9 ? s.fat_premium_per_pct_q4 : s.fat_premium_per_pct;
-    const fat_premium = Math.max(0, (fat - s.fat_base) * fatPremiumRate);
+    const premiumOverride = s.fat_premium_override_m[i];
+    const fat_premium = premiumOverride == null
+      ? Math.max(0, (fat - s.fat_base) * fatPremiumRate)
+      : Math.max(0, premiumOverride);
     const effective_price = price + fat_premium;
     const revenue_milk = effective_price * volume;
     return { i, price, fat, fat_premium, effective_price, daily, days, volume, revenue_milk };

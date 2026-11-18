@@ -11,10 +11,10 @@ describe("milk model defaults", () => {
     expect(august.fat_premium).toBeCloseTo(0.33, 10);
     expect(august.effective_price).toBeCloseTo(35.33, 10);
     expect(calculations.total_volume_kg).toBeCloseTo(35_960_568.157, 3);
-    expect(calculations.revenue_milk_total).toBeCloseTo(1_349_403_062.16, 2);
+    expect(calculations.revenue_milk_total).toBeCloseTo(1_352_136_817.02, 2);
     expect(calculations.cost_milk_total).toBeCloseTo(1_476_388_096.11, 2);
     expect(calculations.revenue_milk_total - calculations.cost_milk_total).toBeCloseTo(
-      -126_985_033.95,
+      -124_251_279.09,
       2,
     );
   });
@@ -31,10 +31,11 @@ describe("milk model defaults", () => {
     expect(september.effective_price).toBeCloseTo(35.38, 8);
     expect(october.daily).toBeCloseTo(2_953_000 / 31, 6);
     expect(october.volume).toBeCloseTo(2_953_000, 2);
-    expect(october.price).toBeCloseTo(36.35, 8);
+    expect(october.price).toBeCloseTo(36, 10);
     expect(october.fat).toBeCloseTo(3.8, 8);
-    expect(october.fat_premium).toBeCloseTo((3.8 - 3.6) * 5.5, 8);
-    expect(october.effective_price).toBeCloseTo(37.45, 8);
+    expect(october.fat_premium).toBeCloseTo(2.3757551168, 10);
+    expect(october.effective_price).toBeCloseTo(38.3757551168, 10);
+    expect(october.revenue_milk).toBeCloseTo(113_323_604.86, 2);
     expect(calculations.total_volume_kg).toBeCloseTo(35_960_568.157, 3);
 
     novemberDecember.forEach((month) => {
