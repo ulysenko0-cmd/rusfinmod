@@ -10,30 +10,34 @@ describe("milk model defaults", () => {
     expect(august.fat).toBe(3.765);
     expect(august.fat_premium).toBeCloseTo(0.33, 10);
     expect(august.effective_price).toBeCloseTo(35.33, 10);
-    expect(calculations.total_volume_kg).toBeCloseTo(35_960_568.017, 3);
-    expect(calculations.revenue_milk_total).toBeCloseTo(1_351_617_806.81, 2);
-    expect(calculations.cost_milk_total).toBeCloseTo(1_476_388_090.36, 2);
+    expect(calculations.total_volume_kg).toBeCloseTo(35_960_568.157, 3);
+    expect(calculations.revenue_milk_total).toBeCloseTo(1_349_403_062.16, 2);
+    expect(calculations.cost_milk_total).toBeCloseTo(1_476_388_096.11, 2);
     expect(calculations.revenue_milk_total - calculations.cost_milk_total).toBeCloseTo(
-      -124_770_283.55,
+      -126_985_033.95,
       2,
     );
   });
 
-  it("uses the confirmed September and October volumes and Q4 fat premium formula", () => {
+  it("uses the confirmed September and October milk inputs", () => {
     const calculations = calculate(useModel.getState());
     const september = calculations.monthly[8];
     const october = calculations.monthly[9];
-    const q4 = calculations.monthly.slice(9, 12);
+    const novemberDecember = calculations.monthly.slice(10, 12);
 
     expect(september.daily).toBeCloseTo(96_935, 6);
     expect(september.volume).toBeCloseTo(2_908_050, 2);
     expect(september.price).toBeCloseTo(35.38, 8);
     expect(september.effective_price).toBeCloseTo(35.38, 8);
-    expect(october.daily).toBeCloseTo(95_258.06, 6);
-    expect(october.volume).toBeCloseTo(2_952_999.86, 2);
-    expect(calculations.total_volume_kg).toBeCloseTo(35_960_568.017, 3);
+    expect(october.daily).toBeCloseTo(2_953_000 / 31, 6);
+    expect(october.volume).toBeCloseTo(2_953_000, 2);
+    expect(october.price).toBeCloseTo(36.35, 8);
+    expect(october.fat).toBeCloseTo(3.8, 8);
+    expect(october.fat_premium).toBeCloseTo((3.8 - 3.6) * 5.5, 8);
+    expect(october.effective_price).toBeCloseTo(37.45, 8);
+    expect(calculations.total_volume_kg).toBeCloseTo(35_960_568.157, 3);
 
-    q4.forEach((month) => {
+    novemberDecember.forEach((month) => {
       expect(month.price).toBe(36);
       expect(month.fat).toBe(4);
       expect(month.fat_premium).toBeCloseTo((4 - 3.6) * 5.5, 8);
