@@ -11,6 +11,12 @@ describe("milk model defaults", () => {
     expect(august.fat_premium).toBeCloseTo(0.33, 10);
     expect(august.effective_price).toBeCloseTo(35.33, 10);
     expect(calculations.total_volume_kg).toBeCloseTo(35_960_568.017, 3);
+    expect(calculations.revenue_milk_total).toBeCloseTo(1_351_617_806.81, 2);
+    expect(calculations.cost_milk_total).toBeCloseTo(1_476_388_090.36, 2);
+    expect(calculations.revenue_milk_total - calculations.cost_milk_total).toBeCloseTo(
+      -124_770_283.55,
+      2,
+    );
   });
 
   it("uses the confirmed September and October volumes and Q4 fat premium formula", () => {
@@ -21,6 +27,8 @@ describe("milk model defaults", () => {
 
     expect(september.daily).toBeCloseTo(96_935, 6);
     expect(september.volume).toBeCloseTo(2_908_050, 2);
+    expect(september.price).toBeCloseTo(35.38, 8);
+    expect(september.effective_price).toBeCloseTo(35.38, 8);
     expect(october.daily).toBeCloseTo(95_258.06, 6);
     expect(october.volume).toBeCloseTo(2_952_999.86, 2);
     expect(calculations.total_volume_kg).toBeCloseTo(35_960_568.017, 3);
