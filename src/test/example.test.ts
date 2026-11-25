@@ -11,19 +11,19 @@ describe("milk model defaults", () => {
     expect(august.fat_premium).toBeCloseTo(0.33, 10);
     expect(august.effective_price).toBeCloseTo(35.33, 10);
     expect(calculations.total_volume_kg).toBeCloseTo(35_960_568.157, 3);
-    expect(calculations.revenue_milk_total).toBeCloseTo(1_352_136_817.02, 2);
+    expect(calculations.revenue_milk_total).toBeCloseTo(1_359_646_377.02, 2);
     expect(calculations.cost_milk_total).toBeCloseTo(1_476_388_096.11, 2);
     expect(calculations.revenue_milk_total - calculations.cost_milk_total).toBeCloseTo(
-      -124_251_279.09,
+      -116_741_719.09,
       2,
     );
   });
 
-  it("uses the confirmed September and October milk inputs", () => {
+  it("uses the confirmed September through December milk inputs", () => {
     const calculations = calculate(useModel.getState());
     const september = calculations.monthly[8];
     const october = calculations.monthly[9];
-    const novemberDecember = calculations.monthly.slice(10, 12);
+    const [november, december] = calculations.monthly.slice(10, 12);
 
     expect(september.daily).toBeCloseTo(96_935, 6);
     expect(september.volume).toBeCloseTo(2_908_050, 2);
@@ -38,11 +38,13 @@ describe("milk model defaults", () => {
     expect(october.revenue_milk).toBeCloseTo(113_323_604.86, 2);
     expect(calculations.total_volume_kg).toBeCloseTo(35_960_568.157, 3);
 
-    novemberDecember.forEach((month) => {
-      expect(month.price).toBe(36);
+    expect(november.price).toBe(36.53);
+    expect(november.effective_price).toBeCloseTo(38.73, 8);
+    expect(december.price).toBe(38);
+    expect(december.effective_price).toBeCloseTo(40.20, 8);
+    [november, december].forEach((month) => {
       expect(month.fat).toBe(4);
       expect(month.fat_premium).toBeCloseTo((4 - 3.6) * 5.5, 8);
-      expect(month.effective_price).toBeCloseTo(38.2, 8);
     });
   });
 });
